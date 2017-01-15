@@ -64,16 +64,17 @@ def copy_image(source, dest_dir):
     if os.path.isfile(dest):
         if filecmp.cmp(source, dest, shallow=False):
             logger.info("filename %s already exists and it is equal, no copy", dest)
+            os.remove(source)
         else:
-            logger.warning("filename %s already exists and it is different, no cpy is done", dest)
+            logger.warning("filename %s already exists and it is different, no copy is done", dest)
     else:
         logger.info("moving file %s to %s", fn, new_path)
-        #shutil.copy2(source, dest)
+        shutil.copy2(source, dest)
+        os.remove(source)
 
 if __name__ == "__main__":
-    input_directory = "/var/run/media/turra/SamsungRugg/Immagini/"
-    output_directory = '/tmp'
-    output_directory = input_directory
+    input_directory = "/var/run/media/turra/EOS_DIGITAL/DCIM/100CANON/"
+    output_directory = '/var/run/media/turra/SamsungRugg/Immagini/'
     for fn in filename_generator(input_directory):
         date  = get_filename_date(fn)
         date = parse_date(date)
