@@ -73,8 +73,15 @@ def copy_image(source, dest_dir):
         os.remove(source)
 
 if __name__ == "__main__":
-    input_directory = "/var/run/media/turra/EOS_DIGITAL/DCIM/100CANON/"
-    output_directory = '/var/run/media/turra/SamsungRugg/Immagini/'
+    import argparse
+
+    parser = argparse.ArgumentParser(description='Organize images in forders by day')
+    parser.add_argument('input', help='input directory')
+    parser.add_argument('output', help='output directory')
+    args = parser.parse_args()
+
+    input_directory = args.input
+    output_directory = args.output
     for fn in filename_generator(input_directory):
         date  = get_filename_date(fn)
         date = parse_date(date)
