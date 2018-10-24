@@ -57,25 +57,26 @@ def parse_date(date_string):
 def get_new_path(basedir, date):
     return os.path.join(basedir, '{:04d}/{:02d}/{:02d}'.format(date.year, date.month, date.day))
 
-def copy_image(source, dest_dir, overwrite=False):
+def copy_image(source, dest_dir, overwrite=False, remove_source=False):
+    remove = os.remove if remove_source else (lambda x: None)
     dest = os.path.join(dest_dir, os.path.basename(source))
     if not os.path.exists(dest_dir):
         os.makedirs(dest_dir)
     if os.path.isfile(dest):
         if filecmp.cmp(source, dest, shallow=False):
             logger.info("filename %s already exists and it is equal, no copy", dest)
-            os.remove(source)
+            remove(source)
         else:
             if overwrite:
                 logger.info("moving file %s to %s", fn, new_path)
                 shutil.copy2(source, dest)
-                os.remove(source)
+                remove(source)
             else:
                 logger.warning("filename %s already exists and it is different, no copy is done", dest)
     else:
         logger.info("moving file %s to %s", fn, new_path)
         shutil.copy2(source, dest)
-        os.remove(source)
+        remove(source)
 
 if __name__ == "__main__":
     import argparse
@@ -84,6 +85,7 @@ if __name__ == "__main__":
     parser.add_argument('input', help='input directory')
     parser.add_argument('output', help='output directory')
     parser.add_argument('--overwrite', action='store_true', help='overwrite if same image exists')
+    parser.add_argument('--remove-source', action='store_true', help='remove source')
     args = parser.parse_args()
 
     input_directory = args.input
@@ -93,7 +95,7 @@ if __name__ == "__main__":
         date = parse_date(date)
         if date:
             new_path = get_new_path(output_directory, date)
-            copy_image(fn, new_path, overwrite=args.overwrite)
+            copy_image(fn, new_path, overwrite=args.overwrite, remove_source=args.remove_source)
         else:
             logger.info("no date for file %s", fn)
 
