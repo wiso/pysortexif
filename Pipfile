@@ -7,8 +7,8 @@ name = "pypi"
 ExifRead = "*"
 
 [dev-packages]
-python-coveralls = "*"
 coveralls = "*"
+pytest-cov = "*"
 
 [requires]
 python_version = "3.6"
