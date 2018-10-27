@@ -12,7 +12,7 @@ install:
   - pipenv install --dev --skip-lock
 
 script:
-  - pipenv run py.test tests --cov
+  - pipenv run py.test tests --cov=pysortexif
 
 after_success:
   - coveralls
