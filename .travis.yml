@@ -6,7 +6,7 @@ python:
 
 install:
   - time sudo apt-get update -qq
-  - pip install pyenv --upgrade
+  - pip install pipenv --upgrade
   - pipenv install --dev
 
 script:
