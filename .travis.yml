@@ -11,6 +11,7 @@ before_install:
 
 install:
   - pipenv install --dev
+  - pip install python-coveralls
 
 script:
   - pipenv run py.test tests
