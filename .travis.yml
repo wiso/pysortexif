@@ -5,9 +5,11 @@ python:
   - 3.5
   - 3.6
 
-install:
+before_install:
   - time sudo apt-get update -qq
   - pip install pipenv --upgrade
+
+install:
   - pipenv install --dev
 
 script:
