@@ -18,7 +18,8 @@ logger.addHandler(ch)
 
 
 def match_filename(filename):
-    return ".jpg" in filename or ".JPG" in filename
+    _, ext = os.path.splitext(filename)
+    return ".jpg" in ext or ".JPG" in ext
 
 
 def filename_generator_python2(directory_name):
