@@ -2,3 +2,7 @@
 
 # pysortexif
 Organize photographs in folders using exif information
+
+## How to install
+
+pip install pysortexif

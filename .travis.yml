@@ -4,15 +4,12 @@ python:
   - 3.5
   - 3.6
 
-before_install:
-  - time sudo apt-get update -qq
-  - pip install pipenv --upgrade
-
 install:
-  - pipenv install --dev --skip-lock
+  - pip install pysortexif pytest codecov coverage pytest-cov
 
 script:
-  - pipenv run py.test tests --cov=pysortexif
+  - py.test --cov=./
+
 
 after_success:
-  - coveralls
+  - codecov
