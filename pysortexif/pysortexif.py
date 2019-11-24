@@ -110,13 +110,18 @@ if __name__ == "__main__":
 
     input_directory = args.input
     output_directory = args.output
+    ncopied = 0
+    nfiles = 0
     for fn in filename_generator(input_directory):
+        nfiles += 1
         date = get_filename_date(fn)
         date = parse_date(date)
         if date:
             new_path = get_new_path(output_directory, date)
-            copy_image(
+            if copy_image(
                 fn, new_path, overwrite=args.overwrite, remove_source=args.remove_source
-            )
+            ):
+                ncopied += 1
         else:
             logger.info("no date for file %s", fn)
+    logger.info("files copied: %d/%d", ncopied, nfiles)
