@@ -37,7 +37,7 @@ def filename_generator_python3(directory_name):
         return "[%s%s]" % (c.lower(), c.upper()) if c.isalpha() else c
 
     for filename in glob.iglob(
-        "{0}/**/*.{1}".format(directory_name, "jpg"), recursive=True
+        "{0}/**/*".format(directory_name), recursive=True
     ):
         yield filename
 
