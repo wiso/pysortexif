@@ -80,20 +80,24 @@ def copy_image(source, dest_dir, overwrite=False, remove_source=False):
         if filecmp.cmp(source, dest, shallow=False):
             logger.info("filename %s already exists and it is equal, no copy", dest)
             remove(source)
+            return True
         else:
             if overwrite:
                 logger.info("moving file %s to %s", fn, new_path)
                 shutil.copy2(source, dest)
                 remove(source)
+                return True
             else:
                 logger.warning(
                     "filename %s already exists and it is different, no copy is done",
                     dest,
                 )
+                return False
     else:
         logger.info("moving file %s to %s", fn, new_path)
         shutil.copy2(source, dest)
         remove(source)
+        return True
 
 
 if __name__ == "__main__":
@@ -112,6 +116,7 @@ if __name__ == "__main__":
     output_directory = args.output
     ncopied = 0
     nfiles = 0
+    nnodate = 0
     for fn in filename_generator(input_directory):
         nfiles += 1
         date = get_filename_date(fn)
@@ -124,4 +129,6 @@ if __name__ == "__main__":
                 ncopied += 1
         else:
             logger.info("no date for file %s", fn)
+            nnodate += 1
     logger.info("files copied: %d/%d", ncopied, nfiles)
+    logger.info("files not copied with no date: %d" % nnodate)
