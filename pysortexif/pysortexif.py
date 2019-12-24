@@ -1,4 +1,6 @@
+import mimetypes
 import exifread
+import exiftool
 import os
 from datetime import datetime
 import shutil
@@ -27,18 +29,25 @@ def filename_generator_python2(directory_name):
 
     for root, dirnames, filenames in os.walk(directory_name):
         for filename in filenames:
+            if not os.path.isfile(filename):
+                logger.info("ignoring %s, it is not a file")
+                continue
             yield os.path.join(root, filename)
 
 
 def filename_generator_python3(directory_name):
     import glob
+    import os
 
     def either(c):
         return "[%s%s]" % (c.lower(), c.upper()) if c.isalpha() else c
 
     for filename in glob.iglob(
-        "{0}/**/*".format(directory_name), recursive=True
+        "{0}/*".format(directory_name), recursive=True
     ):
+        if not os.path.isfile(filename):
+            logger.info("ignoring %s, it is not a file")
+            continue
         yield filename
 
 
@@ -51,12 +60,28 @@ def filename_generator(directory_name):
         return filename_generator_python2(directory_name)
 
 
+def get_quicktime_date(filename):
+    with exiftool.ExifTool() as et: 
+        metadata = et.get_metadata_batch([filename])[0]
+        return metadata["QuickTime:CreateDate"]
+
+    
 def get_filename_date(filename):
+    mime = mimetypes.guess_type(filename)
+
+    if mime[0] == "video/quicktime":
+        return get_quicktime_date(filename)
+    
     with open(filename, "rb") as f:
         exif_data = exifread.process_file(f, stop_tag="EXIF DateTimeOriginal")
         date = exif_data.get("EXIF DateTimeOriginal", None)
-        if date:
+        if date is not None:
             return date.values
+
+    with exiftool.ExifTool() as et:
+        metadata = et.get_metadata_batch([filename])[0]
+        date = metadata.get('EXIF:ModifyDate', None)
+        return date
 
 
 def parse_date(date_string):
