@@ -1,14 +1,14 @@
 #!/usr/bin/env python
 
+import filecmp
+import logging
 import mimetypes
+import os
+import shutil
+from datetime import datetime
+
 import exifread
 import exiftool
-import os
-from datetime import datetime
-import shutil
-import filecmp
-
-import logging
 
 # create logger
 logger = logging.getLogger("logger")
