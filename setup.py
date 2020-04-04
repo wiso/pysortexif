@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="pysortexif",
-    version="0.1.0",
+    version="0.2.0",
     author="Ruggero Turra",
     author_email="giurrero@gmail.com",
     description="Simple package to move photographs to folders, depending on exif timestamp",
@@ -13,6 +13,7 @@ setuptools.setup(
     long_description_content_type="text/markdown",
     url="https://github.com/wiso/pysortexif",
     packages=setuptools.find_packages(),
+    scripts=['pysortexif/pysortexif.py'],
     install_requires=['exifread', 'pyexiftool'],
     classifiers=[
         "Programming Language :: Python :: 3",

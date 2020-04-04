@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 import mimetypes
 import exifread
 import exiftool
