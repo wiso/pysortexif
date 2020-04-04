@@ -5,7 +5,7 @@ python:
   - 3.6
 
 install:
-  - pip install pysortexif pytest codecov coverage pytest-cov pytest coveralls
+  - pip install pysortexif pytest pytest-cov coveralls
 
 script:
   - py.test --cov=./
