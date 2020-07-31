@@ -32,7 +32,7 @@ def filename_generator_python2(directory_name):
     for root, dirnames, filenames in os.walk(directory_name):
         for filename in filenames:
             if not os.path.isfile(filename):
-                logger.info("ignoring %s, it is not a file")
+                logger.info("ignoring %s, it is not a file", filename)
                 continue
             yield os.path.join(root, filename)
 
@@ -46,7 +46,7 @@ def filename_generator_python3(directory_name):
 
     for filename in glob.iglob("{0}/*".format(directory_name), recursive=True):
         if not os.path.isfile(filename):
-            logger.info("ignoring %s, it is not a file")
+            logger.info("ignoring %s, it is not a file", filename)
             continue
         yield filename
 
