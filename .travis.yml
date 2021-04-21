@@ -6,6 +6,7 @@ python:
 
 install:
   - pip install pytest pytest-cov coveralls
+  - pip install .
 
 script:
   - py.test --cov=./
