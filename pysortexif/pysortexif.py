@@ -125,10 +125,10 @@ def copy_image(source, dest_dir, overwrite=False, remove_source=False):
         return True
 
 
-if __name__ == "__main__":
+def main():
     import argparse
 
-    parser = argparse.ArgumentParser(description="Organize images in forders by day")
+    parser = argparse.ArgumentParser(description="Organize images in folders by day")
     parser.add_argument("input", help="input directory")
     parser.add_argument("output", help="output directory")
     parser.add_argument(
@@ -156,4 +156,8 @@ if __name__ == "__main__":
             logger.info("no date for file %s", fn)
             nnodate += 1
     logger.info("files copied: %d/%d", ncopied, nfiles)
-    logger.info("files not copied with no date: %d" % nnodate)
+    logger.info("files not copied with no date: %d", nnodate)
+
+
+if __name__ == "__main__":
+    main()

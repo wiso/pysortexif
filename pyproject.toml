@@ -1,0 +1,12 @@
+[project]
+name = "pysortexif"
+version = "0.3.0"
+authors = [{ name = "Ruggero Turra", email = "giurrero@gmail.com" }]
+description = "Simple package to move photographs to folders, depending on exif timestamp"
+readme = "README.md"
+urls = { "Homepage" = "https://github.com/wiso/pysortexif" }
+requires-python = ">=3.10"
+dependencies = ["exifread>=3.3.1", "pyexiftool>=0.5.6"]
+
+[project.scripts]
+pysortexif = "pysortexif.pysortexif:main"
