@@ -61,8 +61,8 @@ def filename_generator(directory_name):
 
 
 def get_quicktime_date(filename):
-    with exiftool.ExifTool() as et:
-        metadata = et.get_metadata_batch([filename])[0]
+    with exiftool.ExifToolHelper() as et:
+        metadata = et.get_metadata([filename])[0]
         return metadata["QuickTime:CreateDate"]
 
 
@@ -78,8 +78,8 @@ def get_filename_date(filename):
         if date is not None:
             return date.values
 
-    with exiftool.ExifTool() as et:
-        metadata = et.get_metadata_batch([filename])[0]
+    with exiftool.ExifToolHelper() as et:
+        metadata = et.get_metadata([filename])[0]
         date = metadata.get("EXIF:ModifyDate", None)
         return date
 
