@@ -1,31 +1,49 @@
 [project]
 name = "pysortexif"
-version = "0.3.0"
+version = "0.4.0"
 authors = [{ name = "Ruggero Turra", email = "giurrero@gmail.com" }]
 description = "Simple package to move photographs to folders, depending on exif timestamp"
 readme = "README.md"
 urls = { "Homepage" = "https://github.com/wiso/pysortexif" }
-requires-python = ">=3.10"
-dependencies = ["exifread>=3.3.1", "pyexiftool>=0.5.6"]
+requires-python = ">=3.14"
+dependencies = ["exifread>=3.5.1", "pyexiftool>=0.5.6"]
 keywords = ["exif", "photography", "sort", "timestamp"]
 classifiers = [
     "Development Status :: 4 - Beta",
+    "Environment :: Console",
     "Intended Audience :: End Users/Desktop",
-    "Programming Language :: Python :: 3.10",
-    "Programming Language :: Python :: 3.11",
-    "Programming Language :: Python :: 3.12",
-    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.14",
+    "Topic :: Multimedia :: Graphics",
 ]
 
 [project.scripts]
 pysortexif = "pysortexif.pysortexif:main"
 
-[tool.hatch.build.targets.sdist]
-include = [
-    "README.md"
-]
+[dependency-groups]
+dev = ["pillow>=13.0.0", "pytest>=9.1.1", "pytest-cov>=7.1.0", "ruff>=0.17.1"]
+
+[build-system]
+requires = ["hatchling>=1.32.4"]
+build-backend = "hatchling.build"
 
 [tool.hatch.build.targets.wheel]
-include = [
-    "README.md"
-]
+packages = ["pysortexif"]
+
+[tool.hatch.build.targets.sdist]
+include = ["pysortexif", "tests", "README.md"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "--cov=pysortexif --cov-report=term-missing"
+
+[tool.coverage.run]
+source = ["pysortexif"]
+branch = true
+
+[tool.coverage.report]
+exclude_lines = ["pragma: no cover", "if __name__ == .__main__.:"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
