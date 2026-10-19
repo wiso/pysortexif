@@ -133,6 +133,24 @@ def test_get_filename_date_exiftool_fallback(tmp_path):
     assert p.get_filename_date(str(image), et) == "2021:01:02 03:04:05"
 
 
+def test_get_filename_date_invalid_exifread_falls_back(tmp_path):
+    image = make_jpeg(tmp_path / "a.jpg", date_original="0000:00:00 00:00:00")
+    et = FakeExifTool({"EXIF:CreateDate": "2021:01:02 03:04:05"})
+    assert p.get_filename_date(str(image), et) == "2021:01:02 03:04:05"
+
+
+def test_get_filename_date_quicktime_invalid_falls_back(tmp_path):
+    video = tmp_path / "a.mov"
+    video.write_bytes(b"")
+    et = FakeExifTool(
+        {
+            "QuickTime:CreateDate": "0000:00:00 00:00:00",
+            "EXIF:CreateDate": "2019:07:08 09:10:11",
+        }
+    )
+    assert p.get_filename_date(str(video), et) == "2019:07:08 09:10:11"
+
+
 def test_get_filename_date_prefers_capture_date(tmp_path):
     image = make_jpeg(tmp_path / "a.jpg")
     et = FakeExifTool(
