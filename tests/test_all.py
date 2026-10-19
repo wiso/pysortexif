@@ -145,7 +145,7 @@ def test_get_filename_date_quicktime_invalid_falls_back(tmp_path):
     et = FakeExifTool(
         {
             "QuickTime:CreateDate": "0000:00:00 00:00:00",
-            "EXIF:CreateDate": "2019:07:08 09:10:11",
+            "EXIF:ModifyDate": "2019:07:08 09:10:11",
         }
     )
     assert p.get_filename_date(str(video), et) == "2019:07:08 09:10:11"
