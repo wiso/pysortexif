@@ -45,23 +45,19 @@ def filename_generator(directory_name, exclude=None):
             yield path
 
 
-def get_quicktime_date(filename, et):
-    metadata = et.get_metadata([filename])[0]
-    return metadata.get("QuickTime:CreateDate")
-
-
 def get_filename_date(filename, et):
     mime = mimetypes.guess_type(filename)
 
-    if mime[0] == "video/quicktime":
-        return get_quicktime_date(filename, et)
-
-    with open(filename, "rb") as f:
-        exif_data = exifread.process_file(
-            f, stop_tag="EXIF DateTimeOriginal", details=False
-        )
+    # QuickTime files have no EXIF block for exifread, use only ExifTool
+    if mime[0] != "video/quicktime":
+        with open(filename, "rb") as f:
+            exif_data = exifread.process_file(
+                f, stop_tag="EXIF DateTimeOriginal", details=False
+            )
         date = exif_data.get("EXIF DateTimeOriginal", None)
-        if date is not None:
+        # an invalid value (e.g. "0000:00:00 00:00:00") must not prevent
+        # the fallback to the other tags
+        if date is not None and parse_date(date.values) is not None:
             return date.values
 
     metadata = et.get_metadata([filename])[0]
